@@ -46,8 +46,11 @@ export const createSnippets  = async(prevState:{message:string},formData: FormDa
     // })
 
     throw new Error("Someting wrong")
-    } catch (error: any) {
-        return {message: error.message}
+    } catch (error: unknown) {
+        if (error instanceof Error){
+
+            return {message: error.message}
+        }
     }
     redirect("/")
   }
