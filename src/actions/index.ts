@@ -1,6 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 
@@ -13,6 +14,7 @@ export const saveSnippets = async(id:number, code:string)=>{
             code
         }
     })
+    revalidatePath(`/snippets/${id}`)
     redirect(`/snippets/${id}`)
 
 }
@@ -23,6 +25,7 @@ export const deleteSnippet = async(id:number)=>{
           id
         }
     })
+    revalidatePath("/")
     redirect("/")
 }
 
@@ -39,13 +42,9 @@ export const createSnippets  = async(prevState:{message:string},formData: FormDa
     if(typeof code !== "string" || code.length < 8){
         return {message: "Code is required and must be longer"}
     }
-    // await prisma.snippet.create({
-    //  data:{
-    //   title, code
-    //  }
-    // })
 
-    throw new Error("Someting wrong")
+    revalidatePath("/")
+   
     } catch (error: unknown) {
         if (error instanceof Error){
 

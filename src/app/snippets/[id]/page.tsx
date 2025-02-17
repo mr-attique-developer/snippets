@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import React from "react";
-import NotFound from "./not-found";
 import { notFound } from "next/navigation";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -49,3 +48,11 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 };
 
 export default page;
+
+
+export const generateStaticParams = async () => {
+  const snippets = await prisma.snippet.findMany()
+  return snippets.map((snippet)=>{
+    return {id: snippet.id.toString()}
+  })
+}

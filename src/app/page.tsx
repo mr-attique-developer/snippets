@@ -3,8 +3,11 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import React from "react";
 
+// export const dynamic = "force-dynamic"
+// export const revalidate = 0
 const Home = async() => {
   const snippet = await prisma.snippet.findMany();
+  
   return (
     <>
       <div className="font-bold text-3xl">Home</div>
