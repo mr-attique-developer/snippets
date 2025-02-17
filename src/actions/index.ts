@@ -42,9 +42,14 @@ export const createSnippets  = async(prevState:{message:string},formData: FormDa
     if(typeof code !== "string" || code.length < 8){
         return {message: "Code is required and must be longer"}
     }
+    await prisma.snippet.create({
+     data:{
+      title, code
+     }
+    })
+ 
 
     revalidatePath("/")
-   
     } catch (error: unknown) {
         if (error instanceof Error){
 
